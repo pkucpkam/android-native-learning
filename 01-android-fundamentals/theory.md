@@ -160,6 +160,164 @@ intent.data = Uri.parse("https://google.com")
 startActivity(intent)
 ```
 
+
+#   1. **Mở Activity khác**
+
+### Java:
+
+```java
+Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+startActivity(intent);
+```
+
+---
+
+#   2. **Gửi dữ liệu sang Activity khác**
+
+### Java:
+
+```java
+Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+intent.putExtra("username", "Nguyen Van A");
+intent.putExtra("age", 20);
+startActivity(intent);
+```
+
+### Nhận dữ liệu ở `DetailActivity`:
+
+```java
+String name = getIntent().getStringExtra("username");
+int age = getIntent().getIntExtra("age", 0);
+```
+
+---
+
+#   3. **Mở ứng dụng gọi điện**
+
+```java
+Intent intent = new Intent(Intent.ACTION_DIAL);
+intent.setData(Uri.parse("tel:0123456789"));
+startActivity(intent);
+```
+
+---
+
+#   4. **Mở trình duyệt web**
+
+```java
+Intent intent = new Intent(Intent.ACTION_VIEW);
+intent.setData(Uri.parse("https://google.com"));
+startActivity(intent);
+```
+
+---
+
+#   5. **Mở app nhắn tin SMS**
+
+```java
+Intent intent = new Intent(Intent.ACTION_SENDTO);
+intent.setData(Uri.parse("smsto:0123456789"));
+intent.putExtra("sms_body", "Hello bạn ơi!");
+startActivity(intent);
+```
+
+---
+
+#   6. **Gửi email (Intent chooser)**
+
+```java
+Intent intent = new Intent(Intent.ACTION_SEND);
+intent.setType("message/rfc822");
+intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"abc@gmail.com"});
+intent.putExtra(Intent.EXTRA_SUBJECT, "Tiêu đề email");
+intent.putExtra(Intent.EXTRA_TEXT, "Nội dung email");
+startActivity(Intent.createChooser(intent, "Chọn ứng dụng email"));
+```
+
+---
+
+#   7. **Chọn ảnh từ Gallery**
+
+```java
+Intent intent = new Intent(Intent.ACTION_PICK);
+intent.setType("image/*");
+startActivityForResult(intent, 100);
+```
+
+---
+
+#   8. **Chụp ảnh bằng Camera**
+
+```java
+Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+startActivityForResult(intent, 101);
+```
+
+---
+
+#   9. **Gửi dữ liệu theo Object (Serializable)**
+
+### Model:
+
+```java
+public class User implements Serializable {
+    String name;
+    int age;
+}
+```
+
+### Gửi object:
+
+```java
+User user = new User();
+user.name = "Linh";
+user.age = 22;
+
+Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+intent.putExtra("user", user);
+startActivity(intent);
+```
+
+### Nhận object:
+
+```java
+User user = (User) getIntent().getSerializableExtra("user");
+```
+
+---
+
+#   10. **Lấy kết quả trả về từ Activity (startActivityForResult)**
+
+### Gửi yêu cầu:
+
+```java
+Intent intent = new Intent(MainActivity.this, InputActivity.class);
+startActivityForResult(intent, 200);
+```
+
+### Nhận kết quả:
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == 200 && resultCode == RESULT_OK) {
+        String result = data.getStringExtra("result");
+        Log.d("RESULT", result);
+    }
+}
+```
+
+### Trả dữ liệu về:
+
+```java
+Intent result = new Intent();
+result.putExtra("result", "Dữ liệu trả về");
+setResult(RESULT_OK, result);
+finish();
+```
+
 ---
 
 # 4. Service – Foreground service – Background limitations

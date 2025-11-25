@@ -49,7 +49,7 @@ Truy cập view theo kiểu an toàn type-safe, tránh `findViewById`. Không h�
 
 **Đáp án:**
 Dùng để hiển thị danh sách lớn với hiệu năng cao nhờ tái sử dụng ViewHolder.
-
+Tái sử dụng view cũ mà không cần khởi tạo lại nó nhiều lần, giảm findWiewById
 ---
 
 ### **8. DiffUtil là gì?**
